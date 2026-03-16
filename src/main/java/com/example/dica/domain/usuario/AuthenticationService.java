@@ -15,18 +15,10 @@ public class AuthenticationService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository repository;
-    
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario user = repository.findByEmail(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Usuário não encontrado: " + username);
-        }
-
-        return new User(
-                user.getEmail(),
-                user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
-        );
+        var usuario = repository.findByEmail(username);
+        return usuario;
     }
 }

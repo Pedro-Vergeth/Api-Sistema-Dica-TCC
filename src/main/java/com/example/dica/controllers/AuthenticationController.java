@@ -1,5 +1,6 @@
 package com.example.dica.controllers;
 
+import com.example.dica.domain.usuario.JwtResponseDto;
 import com.example.dica.domain.usuario.LoginRequestDto;
 import com.example.dica.domain.usuario.Usuario;
 import com.example.dica.infra.security.TokenService;
@@ -28,15 +29,11 @@ public class AuthenticationController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<String> authenticate(@RequestBody @Valid LoginRequestDto loginRequest) {
+    public ResponseEntity authenticate(@RequestBody @Valid LoginRequestDto loginRequest) {
         var authToken = new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
-        try {
-            Authentication authentication = manager.authenticate(authToken);
-            var tokenJwt = tokenService.generateToken(authentication);
-            return ResponseEntity.ok(tokenJwt);
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(401).body("Authentication failed: " + e.getMessage());
-        }
+        var authentication = manager.authenticate(authToken);
+        var tokenJwt = tokenService.generateToken((Usuario) authentication.getPrincipal());
+        return ResponseEntity.ok(new JwtResponseDto(tokenJwt));
     }
+
 }
