@@ -27,13 +27,11 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers("/gerenciador/auth/login").permitAll();
+                    req.requestMatchers("/api/gerenciador/auth/**").permitAll();
                     req.anyRequest().authenticated();
                 })
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-
-
     }
 
     @Bean

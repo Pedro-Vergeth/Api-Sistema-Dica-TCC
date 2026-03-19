@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.beans.Encoder;
 
 @RestController
-@RequestMapping("/gerenciador/auth")
+@RequestMapping("api/gerenciador/auth")
 public class AuthenticationController {
 
     @Autowired
@@ -34,6 +34,16 @@ public class AuthenticationController {
         var authentication = manager.authenticate(authToken);
         var tokenJwt = tokenService.generateToken((Usuario) authentication.getPrincipal());
         return ResponseEntity.ok(new JwtResponseDto(tokenJwt));
+    }
+
+    @PostMapping("forgot_password")
+    public ResponseEntity forgotPassword(@RequestBody String email) {
+        return ResponseEntity.ok("Email de recuperação enviado para o time de desenvolvimento: " + email);
+    }
+
+    @PostMapping("create_user")
+    public ResponseEntity createUser(@RequestBody String email){
+        return ResponseEntity.ok("Solicitação de criação de usuário enviada ao time de desenvolvedores: " + email);
     }
 
 }

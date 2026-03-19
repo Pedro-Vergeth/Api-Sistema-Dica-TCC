@@ -21,4 +21,5 @@ public class AuthenticationService implements UserDetailsService {
         var usuario = repository.findByEmail(username);
         return usuario;
     }
+
 }
