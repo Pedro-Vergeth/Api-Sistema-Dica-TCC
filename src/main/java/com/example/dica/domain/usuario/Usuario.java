@@ -1,6 +1,9 @@
 package com.example.dica.domain.usuario;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,13 +32,20 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
+    public Usuario(String nome, String email, String password, Role role) {
+        this.nome = nome;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.email;
     }
 
     @Override
