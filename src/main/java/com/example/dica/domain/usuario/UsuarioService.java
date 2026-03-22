@@ -26,10 +26,8 @@ public class UsuarioService {
         var exist = usuarioRepository.findByEmail(dto.email());
         System.out.println("valor de exist: " + exist);
         if(exist != null) {
-            System.out.println("erro");
             throw new RuntimeException("Email já cadastrado");
         }
-        System.out.println("passou da condição");
         var passwordCrypto = passwordEncoder.encode(dto.password());
         return usuarioRepository.save(new Usuario(dto.nome(), dto.email(), passwordCrypto, dto.role()));
     }
