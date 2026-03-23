@@ -6,6 +6,7 @@ import jakarta.persistence.EnumeratedValue;
 import jakarta.validation.constraints.*;
 
 public record UsuarioRequestDto(
+        Long id,
         @NotBlank(message = "Nome não pode ser em branco")
         String nome,
         @NotBlank(message = "Email não pode estar vazio")

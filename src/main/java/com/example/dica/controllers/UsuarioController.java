@@ -1,9 +1,6 @@
 package com.example.dica.controllers;
 
-import com.example.dica.domain.usuario.Usuario;
-import com.example.dica.domain.usuario.UsuarioRequestDto;
-import com.example.dica.domain.usuario.UsuarioResponse;
-import com.example.dica.domain.usuario.UsuarioService;
+import com.example.dica.domain.usuario.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,13 +25,34 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.getAllUsuario(pageable));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity getUsuarioById(@PathVariable Long id) {
+        var user = usuarioService.getUsuarioById(id);
+        return ResponseEntity.ok(user);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     @PostMapping
-    public ResponseEntity<UsuarioResponse> createUsuario(@RequestBody @Valid UsuarioRequestDto request) {
+    public ResponseEntity createUsuario(@RequestBody @Valid UsuarioRequestDto request) {
         System.out.println(request);
         var userCreate = usuarioService.createUsuario(request);
         return ResponseEntity.ok(new UsuarioResponse(userCreate));
+    }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
+    @PutMapping
+    public ResponseEntity updateUsuario(@RequestBody @Valid UsuarioUpdateDto dto){
+        var userUpdated = usuarioService.updateUsuario(dto);
+        return ResponseEntity.ok(userUpdated);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUsuario(@PathVariable Long id) {
+        usuarioService.deleteUsuario(id);
+        return ResponseEntity.noContent().build();
     }
 }

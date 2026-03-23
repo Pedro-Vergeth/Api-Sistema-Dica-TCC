@@ -1,6 +1,7 @@
 package com.example.dica.infra.exceptions;
 
 import com.auth0.jwt.exceptions.SignatureVerificationException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
@@ -48,6 +49,11 @@ public class TratadorErros {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity errorIllegalArgument(IllegalArgumentException ex){
         return ResponseEntity.status(400).body(new DefaultErrorDto(400, "Bad Request", ex.getMessage(), java.time.LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity errorEntityNotFound(EntityNotFoundException ex){
+        return ResponseEntity.status(404).body(new DefaultErrorDto(404, "Not Found", ex.getMessage(), java.time.LocalDateTime.now()));
     }
 
 }
