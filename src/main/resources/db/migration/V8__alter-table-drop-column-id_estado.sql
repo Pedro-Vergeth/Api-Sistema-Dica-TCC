@@ -1,0 +1,1 @@
+alter table alimentos drop column id_estado;

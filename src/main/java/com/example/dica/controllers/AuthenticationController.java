@@ -30,6 +30,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity authenticate(@RequestBody @Valid LoginRequestDto loginRequest) {
+        System.out.println("senha " + passwordEncoder.encode(loginRequest.password()));
         var authToken = new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
         var authentication = manager.authenticate(authToken);
         var tokenJwt = tokenService.generateToken((Usuario) authentication.getPrincipal());
