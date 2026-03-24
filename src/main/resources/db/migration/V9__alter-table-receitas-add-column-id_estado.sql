@@ -1,0 +1,1 @@
+alter table receitas add column id_estado INT;
