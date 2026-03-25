@@ -1,10 +1,10 @@
 package com.example.dica.domain.usuario;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,7 @@ public class UsuarioService {
 
     public Page<UsuarioResponse> getAllUsuario(Pageable pageable){
         Page<Usuario> usuario = usuarioRepository.findAll(pageable);
-        Page<UsuarioResponse> usuarioResponse = usuario.map(UsuarioResponse::new);
-        return usuarioResponse;
+        return usuario.map(UsuarioResponse::new);
     }
 
     public UsuarioResponse getUsuarioById(Long id) {
@@ -64,5 +63,17 @@ public class UsuarioService {
         var usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
         usuarioRepository.delete(usuario);
+    }
+
+    public ValidarSenhaResponseDto validarSenha(Usuario usuario, ValidarSenhaRequestDto dto) {
+        if (usuario == null) {
+            throw new BadCredentialsException("Usuário autenticado não encontrado");
+        }
+
+        var senhaValida = passwordEncoder.matches(dto.password(), usuario.getPassword());
+        return new ValidarSenhaResponseDto(
+                senhaValida,
+                senhaValida ? "Senha válida" : "Senha inválida"
+        );
     }
 }

@@ -2,6 +2,7 @@ package com.example.dica.domain.receita;
 
 import com.example.dica.domain.estado.Estado;
 import com.example.dica.domain.estado.EstadoRepository;
+import com.example.dica.domain.grupoAlimentar.GrupoAlimentar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +19,10 @@ public class ReceitaService {
     @Autowired
     private EstadoRepository estadoRepository;
 
-    public Page<Receita> getAll(Pageable pageable) {
-        return receitaRepository.findAll(pageable);
+    public Page<Receita> getAll(Pageable pageable, String buscaLivre, TipoRefeicao tipoRefeicao, GrupoAlimentar grupoAlimentar) {
+        return receitaRepository.buscarReceitas(buscaLivre, tipoRefeicao, grupoAlimentar, pageable);
     }
+
 
     public Receita getById(Long id) {
         return receitaRepository.findById(id)

@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -54,6 +55,10 @@ public class TratadorErros {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity errorEntityNotFound(EntityNotFoundException ex){
         return ResponseEntity.status(404).body(new DefaultErrorDto(404, "Not Found", ex.getMessage(), java.time.LocalDateTime.now()));
+    }
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity erroAuthentication(InternalAuthenticationServiceException ex){
+        return ResponseEntity.status(401).body(new DefaultErrorDto(401, "Unauthorized", "Email ou senha incorretos", java.time.LocalDateTime.now()));
     }
 
 }

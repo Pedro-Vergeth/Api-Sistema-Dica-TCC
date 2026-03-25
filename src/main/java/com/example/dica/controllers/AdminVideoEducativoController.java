@@ -21,8 +21,10 @@ public class AdminVideoEducativoController {
     private VideoEducativoService videoEducativoService;
 
     @GetMapping
-    public ResponseEntity<Page<VideoEducativoResponseDto>> getVideosEducativos(@PageableDefault(sort = "id") Pageable pageable) {
-        var page = videoEducativoService.getAll(pageable).map(VideoEducativoResponseDto::new);
+    public ResponseEntity<Page<VideoEducativoResponseDto>> getVideosEducativos(
+            @PageableDefault(sort = "id") Pageable pageable,
+            @RequestParam(required = false) String buscaLivre) {
+        var page = videoEducativoService.getAll(pageable, buscaLivre).map(VideoEducativoResponseDto::new);
         return ResponseEntity.ok(page);
     }
 

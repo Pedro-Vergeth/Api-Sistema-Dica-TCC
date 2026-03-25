@@ -1,9 +1,6 @@
 package com.example.dica.domain.alimento;
 
-import com.example.dica.domain.estado.Estado;
-import com.example.dica.domain.estado.EstadoRepository;
 import com.example.dica.domain.grupoAlimentar.GrupoAlimentar;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,15 +14,20 @@ public class AlimentoService {
     @Autowired
     private AlimentoRepository alimentoRepository;
 
-    @Autowired
-    private EstadoRepository estadoRepository;
-
     public Page<Alimento> getAll(Pageable pageable) {
+        
         return alimentoRepository.findAll(pageable);
     }
 
     public Alimento getById(Long id) {
         return alimentoRepository.findById(id).orElseThrow(() -> new RuntimeException("Alimento não encontrado"));
+    }
+
+    public Page<Alimento> getAll(Pageable pageable, GrupoAlimentar grupoAlimentar) {
+        if (grupoAlimentar != null) {
+            return alimentoRepository.findByGrupoAlimentar(grupoAlimentar, pageable);
+        }
+        return alimentoRepository.findAll(pageable);
     }
 
     public Alimento createAlimento(AlimentoRequestDto dto) throws IOException {
@@ -49,9 +51,6 @@ public class AlimentoService {
         return alimentoRepository.buscarPorNomeOuSinonimo(termo, pageable);
     }
 
-    public Page<Alimento> buscaCatalogoRegionalizado(String estado, GrupoAlimentar grupo, Pageable pageable) {
-        return null;
-    }
 
     public AlimentoResponseDto updateAlimento(Long id, AlimentoRequestDto dto) throws IOException {
         var alimento = alimentoRepository.findById(id)

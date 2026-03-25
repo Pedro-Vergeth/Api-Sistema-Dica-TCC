@@ -4,6 +4,8 @@ import com.example.dica.domain.receita.ReceitaRequestDto;
 import com.example.dica.domain.receita.ReceitaResponseDto;
 import com.example.dica.domain.receita.ReceitaService;
 import com.example.dica.domain.receita.ReceitaUpdateDto;
+import com.example.dica.domain.grupoAlimentar.GrupoAlimentar;
+import com.example.dica.domain.receita.TipoRefeicao;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/gerenciador/receita")
@@ -24,8 +27,14 @@ public class AdminReceitaController {
     private ReceitaService receitaService;
 
     @GetMapping
-    public ResponseEntity<Page<ReceitaResponseDto>> getReceitas(@PageableDefault(sort = "id") Pageable pageable) {
-        var page = receitaService.getAll(pageable).map(ReceitaResponseDto::new);
+    public ResponseEntity<Page<ReceitaResponseDto>> getReceitas(
+            @RequestParam Optional<TipoRefeicao> tipoRefeicao,
+            @RequestParam Optional<GrupoAlimentar> grupoAlimentar,
+            @RequestParam(defaultValue = "") String buscaLivre,
+            @PageableDefault(sort = "id") Pageable pageable) {
+
+        var page = receitaService.getAll(pageable, buscaLivre, tipoRefeicao.orElse(null), grupoAlimentar.orElse(null)).map(ReceitaResponseDto::new);
+
         return ResponseEntity.ok(page);
     }
 

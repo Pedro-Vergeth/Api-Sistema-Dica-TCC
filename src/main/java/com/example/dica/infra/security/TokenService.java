@@ -24,7 +24,9 @@ public class TokenService {
         return JWT.create()
                 .withIssuer("Dica API")
                 .withClaim("id", usuario.getId())
+                .withClaim("nome", usuario.getNome())
                 .withSubject(usuario.getEmail())
+                .withClaim("role", usuario.getRole().name())
                 .withExpiresAt(dataExpiracao())
                 .sign(algorithm);
     }

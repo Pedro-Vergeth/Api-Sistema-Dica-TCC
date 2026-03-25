@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +45,7 @@ public class UsuarioController {
     @Transactional
     @PutMapping
     public ResponseEntity updateUsuario(@RequestBody @Valid UsuarioUpdateDto dto){
+        System.out.println("Atualiza usuario");
         var userUpdated = usuarioService.updateUsuario(dto);
         return ResponseEntity.ok(userUpdated);
     }
@@ -54,5 +56,14 @@ public class UsuarioController {
     public ResponseEntity deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteUsuario(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/validar-senha")
+    public ResponseEntity<ValidarSenhaResponseDto> validarSenha(
+            @AuthenticationPrincipal Usuario usuario,
+            @RequestBody @Valid ValidarSenhaRequestDto dto
+    ) {
+        return ResponseEntity.ok(usuarioService.validarSenha(usuario, dto));
     }
 }

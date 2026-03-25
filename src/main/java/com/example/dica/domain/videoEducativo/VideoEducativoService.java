@@ -11,8 +11,12 @@ public class VideoEducativoService {
     @Autowired
     private VideoEducativoRepository videoEducativoRepository;
 
-    public Page<VideoEducativo> getAll(Pageable pageable) {
-        return videoEducativoRepository.findAll(pageable);
+
+    public Page<VideoEducativo> getAll(Pageable pageable, String buscaLivre) {
+        if (buscaLivre == null || buscaLivre.trim().isEmpty()) {
+            return videoEducativoRepository.findAll(pageable);
+        }
+        return videoEducativoRepository.buscarPorBuscaLivre(buscaLivre, pageable);
     }
 
     public VideoEducativo getById(Long id) {
