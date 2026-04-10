@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class AlimentoService {
@@ -21,6 +22,10 @@ public class AlimentoService {
 
     public Alimento getById(Long id) {
         return alimentoRepository.findById(id).orElseThrow(() -> new RuntimeException("Alimento não encontrado"));
+    }
+
+    public List<Alimento> getRandonly(){
+        return alimentoRepository.getAlimentoRandomly();
     }
 
     public Page<Alimento> getAll(Pageable pageable, GrupoAlimentar grupoAlimentar) {
