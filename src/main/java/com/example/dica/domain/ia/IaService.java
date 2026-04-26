@@ -41,6 +41,7 @@ public class IaService {
         if (response.getBody() == null || response.getBody().response() == null || response.getBody().response().isBlank()) {
             throw new RuntimeException("O Ollama não retornou um nome de alimento");
         }
+        System.out.println("Ollama response: " + response.getBody().response());
 
         return new IaResponseDto(response.getBody().response().trim());
     }
