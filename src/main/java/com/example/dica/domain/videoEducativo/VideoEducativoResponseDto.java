@@ -4,6 +4,7 @@ public record VideoEducativoResponseDto(
         Long id,
         String titulo,
         Integer duracaoSegundos,
+        String descricao,
         String videoUrl
 ) {
     public VideoEducativoResponseDto(VideoEducativo videoEducativo) {
@@ -11,6 +12,7 @@ public record VideoEducativoResponseDto(
                 videoEducativo.getId(),
                 videoEducativo.getTitulo(),
                 videoEducativo.getDuracaoSegundos(),
+                videoEducativo.getDescricao(),
                 videoEducativo.getVideoUrl()
         );
     }

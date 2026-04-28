@@ -13,6 +13,7 @@ public record ReceitaRequestDto(
         @NotNull GrupoAlimentar grupoAlimentar,
         @NotBlank String ingredientes,
         @NotBlank String modoPreparo,
+        @NotBlank String rendimento,
         MultipartFile imagem,
         Long idEstado
 ) {

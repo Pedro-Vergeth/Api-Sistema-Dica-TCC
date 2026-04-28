@@ -11,6 +11,7 @@ public record ReceitaUpdateDto(
         GrupoAlimentar grupoAlimentar,
         String ingredientes,
         String modoPreparo,
+        String rendimento,
         MultipartFile imagem,
         Long idEstado
 ) {

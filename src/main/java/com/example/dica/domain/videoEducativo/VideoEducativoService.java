@@ -28,6 +28,7 @@ public class VideoEducativoService {
         var videoEducativo = new VideoEducativo();
         videoEducativo.setTitulo(dto.titulo());
         videoEducativo.setDuracaoSegundos(dto.duracaoSegundos());
+        videoEducativo.setDescricao(dto.descricao());
         videoEducativo.setVideoUrl(dto.videoUrl());
         return videoEducativoRepository.save(videoEducativo);
     }
@@ -41,6 +42,9 @@ public class VideoEducativoService {
         }
         if (dto.duracaoSegundos() != null) {
             videoEducativo.setDuracaoSegundos(dto.duracaoSegundos());
+        }
+        if (dto.descricao() != null) {
+            videoEducativo.setDescricao(dto.descricao());
         }
         if (dto.videoUrl() != null) {
             videoEducativo.setVideoUrl(dto.videoUrl());

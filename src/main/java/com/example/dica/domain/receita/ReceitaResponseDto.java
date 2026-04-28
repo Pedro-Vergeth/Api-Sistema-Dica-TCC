@@ -12,6 +12,7 @@ public record ReceitaResponseDto(
         GrupoAlimentar grupoAlimentar,
         String ingredientes,
         String modoPreparo,
+        String rendimento,
         String imagem64,
         EstadoDto estado
 ) {
@@ -25,6 +26,7 @@ public record ReceitaResponseDto(
                 receita.getGrupoAlimentar(),
                 receita.getIngredientes(),
                 receita.getModoPreparo(),
+                receita.getRendimento(),
                 receita.getImagem() != null ? java.util.Base64.getEncoder().encodeToString(receita.getImagem()) : null,
                 receita.getEstado() != null ? new EstadoDto(receita.getEstado()) : null
         );

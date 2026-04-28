@@ -40,6 +40,7 @@ public class ReceitaService {
         receita.setGrupoAlimentar(dto.grupoAlimentar());
         receita.setIngredientes(dto.ingredientes());
         receita.setModoPreparo(dto.modoPreparo());
+        receita.setRendimento(dto.rendimento());
         receita.setImagem(dto.imagem() != null ? dto.imagem().getBytes() : null);
         receita.setEstado(estado);
 
@@ -70,6 +71,9 @@ public class ReceitaService {
         }
         if (dto.modoPreparo() != null) {
             receita.setModoPreparo(dto.modoPreparo());
+        }
+        if (dto.rendimento() != null) {
+            receita.setRendimento(dto.rendimento());
         }
         if (dto.imagem() != null) {
             receita.setImagem(dto.imagem().getBytes());

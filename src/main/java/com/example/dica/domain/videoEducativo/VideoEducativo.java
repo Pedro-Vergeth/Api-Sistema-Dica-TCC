@@ -29,6 +29,9 @@ public class VideoEducativo {
     @Column(name = "duracao_segundos")
     private Integer duracaoSegundos;
 
+    @Column(length = 255)
+    private String descricao;
+
     @Column(name = "video_url", nullable = false, length = 255)
     private String videoUrl;
 }

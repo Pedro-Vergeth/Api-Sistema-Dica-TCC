@@ -43,6 +43,9 @@ public class Receita {
     @Column(name = "modo_preparo", columnDefinition = "TEXT", nullable = false)
     private String modoPreparo;
 
+    @Column(nullable = false, length = 100)
+    private String rendimento;
+
     @Column(name = "imagem", columnDefinition = "bytea")
     private byte[] imagem;
 
