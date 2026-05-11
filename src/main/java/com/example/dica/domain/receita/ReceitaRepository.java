@@ -1,7 +1,6 @@
 package com.example.dica.domain.receita;
 
 import com.example.dica.domain.grupoAlimentar.GrupoAlimentar;
-import com.example.dica.domain.receita.TipoRefeicao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,10 +15,12 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
 			"LOWER(r.ingredientes) LIKE LOWER(CONCAT('%', :buscaLivre, '%')) OR " +
 			"LOWER(r.modoPreparo) LIKE LOWER(CONCAT('%', :buscaLivre, '%'))) AND " +
 			"(:tipoRefeicao IS NULL OR r.tipoRefeicao = :tipoRefeicao) AND " +
-			"(:grupoAlimentar IS NULL OR r.grupoAlimentar = :grupoAlimentar)")
+			"(:grupoAlimentar IS NULL OR r.grupoAlimentar = :grupoAlimentar) AND " +
+			"(:estadoId IS NULL OR r.estado.id = :estadoId)")
 	Page<Receita> buscarReceitas(@Param("buscaLivre") String buscaLivre,
 								 @Param("tipoRefeicao") TipoRefeicao tipoRefeicao,
 								 @Param("grupoAlimentar") GrupoAlimentar grupoAlimentar,
+								 @Param("estadoId") Long estadoId,
 								 Pageable pageable);
 }
 

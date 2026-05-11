@@ -20,7 +20,11 @@ public class ReceitaService {
     private EstadoRepository estadoRepository;
 
     public Page<Receita> getAll(Pageable pageable, String buscaLivre, TipoRefeicao tipoRefeicao, GrupoAlimentar grupoAlimentar) {
-        return receitaRepository.buscarReceitas(buscaLivre, tipoRefeicao, grupoAlimentar, pageable);
+        return getAll(pageable, buscaLivre, tipoRefeicao, grupoAlimentar, null);
+    }
+
+    public Page<Receita> getAll(Pageable pageable, String buscaLivre, TipoRefeicao tipoRefeicao, GrupoAlimentar grupoAlimentar, Long estadoId) {
+        return receitaRepository.buscarReceitas(buscaLivre, tipoRefeicao, grupoAlimentar, estadoId, pageable);
     }
 
 

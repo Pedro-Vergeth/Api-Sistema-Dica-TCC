@@ -40,8 +40,10 @@ public class AlimentoService {
                 null,
                 dto.nomePrincipal(),
                 dto.sinonimos(),
-                dto.porcao(),
-                dto.medidaCaseira(),
+                dto.unidade(),
+                dto.unidadeMedidaCaseira(),
+                dto.qtdParaUmCoracao(),
+                dto.qtdMedidaCaseira(),
                 dto.textoInformativo(),
                 dto.imagem() != null ? dto.imagem().getBytes() : null,
                 dto.grupoAlimentar()
@@ -67,11 +69,17 @@ public class AlimentoService {
         if (dto.sinonimos() != null) {
             alimento.setSinonimos(dto.sinonimos());
         }
-        if (dto.porcao() != null) {
-            alimento.setPorcao(dto.porcao());
+        if (dto.unidade() != null) {
+            alimento.setUnidade(dto.unidade());
         }
-        if (dto.medidaCaseira() != null) {
-            alimento.setMedidaCaseira(dto.medidaCaseira());
+        if (dto.unidadeMedidaCaseira() != null) {
+            alimento.setUnidadeMedidaCaseira(dto.unidadeMedidaCaseira());
+        }
+        if (dto.qtdParaUmCoracao() != null) {
+            alimento.setQtdParaUmCoracao(dto.qtdParaUmCoracao());
+        }
+        if (dto.qtdMedidaCaseira() != null) {
+            alimento.setQtdMedidaCaseira(dto.qtdMedidaCaseira());
         }
         if (dto.textoInformativo() != null) {
             alimento.setTextoInformativo(dto.textoInformativo());

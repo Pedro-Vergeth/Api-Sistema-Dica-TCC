@@ -3,6 +3,7 @@ package com.example.dica.controllers;
 import com.example.dica.domain.alimento.AlimentoGameResponseDto;
 import com.example.dica.domain.alimento.AlimentoResponseDto;
 import com.example.dica.domain.alimento.AlimentoService;
+import com.example.dica.domain.grupoAlimentar.GrupoAlimentar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,8 +34,10 @@ public class AppAlimentoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<AlimentoResponseDto>> listarAlimentos(@PageableDefault(size = 5) Pageable pageable) {
-        var alimentos = alimentoService.getAll(pageable);
+    public ResponseEntity<Page<AlimentoResponseDto>> listarAlimentos(
+            @PageableDefault(size = 5) Pageable pageable,
+            @RequestParam(required = false) GrupoAlimentar grupoAlimentar) {
+        var alimentos = alimentoService.getAll(pageable, grupoAlimentar);
         var response = alimentos.map(AlimentoResponseDto::new);
         return ResponseEntity.ok(response);
     }

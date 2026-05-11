@@ -28,11 +28,12 @@ public class AppReceitaController {
     public ResponseEntity<Page<ReceitaResponseDto>> listarReceitas(
             @RequestParam Optional<TipoRefeicao> tipoRefeicao,
             @RequestParam Optional<GrupoAlimentar> grupoAlimentar,
+            @RequestParam(name = "estado_id") Optional<Long> estadoId,
             @RequestParam(defaultValue = "") String buscaLivre,
             @PageableDefault(sort = "id") Pageable pageable) {
 
         var page = receitaService
-                .getAll(pageable, buscaLivre, tipoRefeicao.orElse(null), grupoAlimentar.orElse(null))
+                .getAll(pageable, buscaLivre, tipoRefeicao.orElse(null), grupoAlimentar.orElse(null), estadoId.orElse(null))
                 .map(ReceitaResponseDto::new);
 
         return ResponseEntity.ok(page);

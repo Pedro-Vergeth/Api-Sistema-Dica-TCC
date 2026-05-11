@@ -1,18 +1,15 @@
 package com.example.dica.domain.alimento;
 
-import com.example.dica.domain.estado.EstadoDto;
 import com.example.dica.domain.grupoAlimentar.GrupoAlimentar;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public record AlimentoResponseDto(
         Long id,
         String nomePrincipal,
         String sinonimos,
-        String porcao,
-        String medidaCaseira,
+        String unidade,
+        String unidadeMedidaCaseira,
+        Double qtdParaUmCoracao,
+        Double qtdMedidaCaseira,
         String textoInformativo,
         GrupoAlimentar grupoAlimentar,
         String imagem64
@@ -22,11 +19,13 @@ public record AlimentoResponseDto(
                 alimento.getId(),
                 alimento.getNomePrincipal(),
                 alimento.getSinonimos(),
-                alimento.getPorcao(),
-                alimento.getMedidaCaseira(),
+                alimento.getUnidade(),
+                alimento.getUnidadeMedidaCaseira(),
+                alimento.getQtdParaUmCoracao(),
+                alimento.getQtdMedidaCaseira(),
                 alimento.getTextoInformativo(),
                 alimento.getGrupoAlimentar(),
-                alimento.getImagem()!= null ? java.util.Base64.getEncoder().encodeToString(alimento.getImagem()) : null
+                alimento.getImagem() != null ? java.util.Base64.getEncoder().encodeToString(alimento.getImagem()) : null
         );
 
     }
