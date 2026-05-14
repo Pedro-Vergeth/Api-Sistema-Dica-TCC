@@ -1,0 +1,1 @@
+create table videos(id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, dados_ficheiro BYTEA NOT NULL)
