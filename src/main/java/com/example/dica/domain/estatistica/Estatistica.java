@@ -29,4 +29,3 @@ public class Estatistica {
     @Column(name = "total_pesquisa_videos_educativos", nullable = false)
     private Long totalPesquisaVideosEducativos;
 }
-

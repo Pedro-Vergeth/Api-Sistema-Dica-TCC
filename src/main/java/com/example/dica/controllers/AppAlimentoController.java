@@ -3,6 +3,7 @@ package com.example.dica.controllers;
 import com.example.dica.domain.alimento.AlimentoGameResponseDto;
 import com.example.dica.domain.alimento.AlimentoResponseDto;
 import com.example.dica.domain.alimento.AlimentoService;
+import com.example.dica.domain.estatistica.EstatisticaService;
 import com.example.dica.domain.grupoAlimentar.GrupoAlimentar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,9 @@ public class AppAlimentoController {
     @Autowired
     AlimentoService alimentoService;
 
+    @Autowired
+    private EstatisticaService estatisticaService;
+
     @GetMapping("/pegar-alimentos-aleatorios")
     public ResponseEntity<List<AlimentoGameResponseDto>> pegarAlimentosAleatorios() {
         var alimentos = alimentoService.getRandonly();
@@ -37,6 +41,7 @@ public class AppAlimentoController {
     public ResponseEntity<Page<AlimentoResponseDto>> listarAlimentos(
             @PageableDefault(size = 5) Pageable pageable,
             @RequestParam(required = false) GrupoAlimentar grupoAlimentar) {
+        estatisticaService.registrarPesquisaAlimentos();
         var alimentos = alimentoService.getAll(pageable, grupoAlimentar);
         var response = alimentos.map(AlimentoResponseDto::new);
         return ResponseEntity.ok(response);
@@ -46,6 +51,8 @@ public class AppAlimentoController {
     public ResponseEntity<Page<AlimentoResponseDto>> buscarAlimentos(
             @RequestParam(defaultValue = "") String buscaLivre,
             @PageableDefault(size = 8) Pageable pageable) {
+
+        estatisticaService.registrarPesquisaAlimentos();
 
         var alimentos = alimentoService.buscarPorBuscaLivre(buscaLivre, pageable);
         var response = alimentos.map(AlimentoResponseDto::new);

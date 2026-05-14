@@ -1,5 +1,6 @@
 package com.example.dica.controllers;
 
+import com.example.dica.domain.estatistica.EstatisticaService;
 import com.example.dica.domain.videoEducativo.VideoEducativoResponseDto;
 import com.example.dica.domain.videoEducativo.VideoEducativoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,15 @@ public class AppVideoEducativoController {
     @Autowired
     private VideoEducativoService videoEducativoService;
 
+    @Autowired
+    private EstatisticaService estatisticaService;
+
     @GetMapping
     public ResponseEntity<Page<VideoEducativoResponseDto>> listarVideosEducativos(
             @RequestParam(defaultValue = "") String buscaLivre,
             @PageableDefault(sort = "id") Pageable pageable) {
+
+        estatisticaService.registrarPesquisaVideosEducativos();
 
         var videos = videoEducativoService.getAll(pageable, buscaLivre);
         var response = videos.map(VideoEducativoResponseDto::new);

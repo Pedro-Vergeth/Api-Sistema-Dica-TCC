@@ -1,5 +1,6 @@
 package com.example.dica.controllers;
 
+import com.example.dica.domain.estatistica.EstatisticaService;
 import com.example.dica.domain.grupoAlimentar.GrupoAlimentar;
 import com.example.dica.domain.receita.ReceitaResponseDto;
 import com.example.dica.domain.receita.ReceitaService;
@@ -24,6 +25,9 @@ public class AppReceitaController {
     @Autowired
     private ReceitaService receitaService;
 
+    @Autowired
+    private EstatisticaService estatisticaService;
+
     @GetMapping
     public ResponseEntity<Page<ReceitaResponseDto>> listarReceitas(
             @RequestParam Optional<TipoRefeicao> tipoRefeicao,
@@ -31,6 +35,8 @@ public class AppReceitaController {
             @RequestParam(name = "estado_id") Optional<Long> estadoId,
             @RequestParam(defaultValue = "") String buscaLivre,
             @PageableDefault(sort = "id") Pageable pageable) {
+
+        estatisticaService.registrarPesquisaReceitas();
 
         var page = receitaService
                 .getAll(pageable, buscaLivre, tipoRefeicao.orElse(null), grupoAlimentar.orElse(null), estadoId.orElse(null))
@@ -45,4 +51,3 @@ public class AppReceitaController {
         return ResponseEntity.ok(new ReceitaResponseDto(receita));
     }
 }
-
