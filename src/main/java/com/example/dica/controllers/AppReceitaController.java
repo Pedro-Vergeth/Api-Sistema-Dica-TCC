@@ -39,7 +39,21 @@ public class AppReceitaController {
         estatisticaService.registrarPesquisaReceitas();
 
         var page = receitaService
-                .getAll(pageable, buscaLivre, tipoRefeicao.orElse(null), grupoAlimentar.orElse(null), estadoId.orElse(null))
+                .getAllApp(pageable, buscaLivre, tipoRefeicao.orElse(null), grupoAlimentar.orElse(null), estadoId.orElse(null))
+                .map(ReceitaResponseDto::new);
+
+        return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/regiao")
+    public ResponseEntity<Page<ReceitaResponseDto>> listarReceitasPorRegiao(
+            @RequestParam(name = "estado_id") Long estadoId,
+            @PageableDefault(size = 5, sort = "id") Pageable pageable) {
+
+        estatisticaService.registrarPesquisaReceitas();
+
+        var page = receitaService
+                .getPorRegiaoApp(pageable, estadoId)
                 .map(ReceitaResponseDto::new);
 
         return ResponseEntity.ok(page);

@@ -2,6 +2,7 @@ package com.example.dica.domain.receita;
 
 import com.example.dica.domain.estado.Estado;
 import com.example.dica.domain.estado.EstadoRepository;
+import com.example.dica.domain.estado.Regiao;
 import com.example.dica.domain.grupoAlimentar.GrupoAlimentar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,12 +20,24 @@ public class ReceitaService {
     @Autowired
     private EstadoRepository estadoRepository;
 
-    public Page<Receita> getAll(Pageable pageable, String buscaLivre, TipoRefeicao tipoRefeicao, GrupoAlimentar grupoAlimentar) {
-        return getAll(pageable, buscaLivre, tipoRefeicao, grupoAlimentar, null);
-    }
-
     public Page<Receita> getAll(Pageable pageable, String buscaLivre, TipoRefeicao tipoRefeicao, GrupoAlimentar grupoAlimentar, Long estadoId) {
         return receitaRepository.buscarReceitas(buscaLivre, tipoRefeicao, grupoAlimentar, estadoId, pageable);
+    }
+
+    public Page<Receita> getAllApp(Pageable pageable, String buscaLivre, TipoRefeicao tipoRefeicao, GrupoAlimentar grupoAlimentar, Long estadoId) {
+        return receitaRepository.buscarReceitasApp(buscaLivre, tipoRefeicao, grupoAlimentar, estadoId, pageable);
+    }
+
+    public Page<Receita> getPorRegiao(Pageable pageable, Long estadoId) {
+        var estado = buscarEstado(estadoId);
+        Regiao regiao = estado.getRegiao();
+        return receitaRepository.buscarPorRegiao(regiao, pageable);
+    }
+
+    public Page<Receita> getPorRegiaoApp(Pageable pageable, Long estadoId) {
+        var estado = buscarEstado(estadoId);
+        Regiao regiao = estado.getRegiao();
+        return receitaRepository.buscarPorRegiaoApp(regiao, pageable);
     }
 
 
