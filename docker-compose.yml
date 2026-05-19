@@ -5,8 +5,8 @@ services:
     image: postgres:15-alpine
     container_name: dica_postgres
     environment:
-      POSTGRES_USER: seu_usuario # Substitua por seu nome de usuário desejado
-      POSTGRES_PASSWORD: sua_senha # Substitua por sua senha desejada
+      POSTGRES_USER: acesso1
+      POSTGRES_PASSWORD: acesso1tcc4323
       POSTGRES_DB: DicaBD
     ports:
       - "5432:5432"
@@ -15,7 +15,7 @@ services:
     networks:
       - dica-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U seu_usuario -d DicaBD"] # Substitua 'seu_usuario' pelo valor correspondente
+      test: ["CMD-SHELL", "pg_isready -U acesso1 -d DicaBD"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -47,11 +47,11 @@ services:
       - ollama-ai
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/DicaBD
-      - SPRING_DATASOURCE_USERNAME=seu_usuario # Substitua por seu nome de usuário do PostgreSQL
-      - SPRING_DATASOURCE_PASSWORD=sua_senha # Substitua por sua senha do PostgreSQL
-      - JWT_SECRET=sua_chave_secreta # Substitua por uma chave secreta para JWT
+      - SPRING_DATASOURCE_USERNAME=acesso1
+      - SPRING_DATASOURCE_PASSWORD=acesso1tcc4323
+      - JWT_SECRET=253245245
       - OLLAMA_API_URL=http://ollama-ai:11434/api/generate
-      - OLLAMA_MODEL_NAME=gemma4:e2b
+      - OLLAMA_API_MODEL=gemma4:e2b
       - tz=America/Sao_Paulo
     networks:
       - dica-network
