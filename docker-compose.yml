@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: dica_postgres
+    environment:
+      POSTGRES_USER: seu_usuario # Substitua por seu nome de usuário desejado
+      POSTGRES_PASSWORD: sua_senha # Substitua por sua senha desejada
+      POSTGRES_DB: DicaBD
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - dica-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U seu_usuario -d DicaBD"] # Substitua 'seu_usuario' pelo valor correspondente
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ollama-ai:
+    image: ollama/ollama:latest
+    container_name: dica_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - dica-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  backend-api:
+    build: .
+    container_name: dica_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-db
+      - ollama-ai
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/DicaBD
+      - SPRING_DATASOURCE_USERNAME=seu_usuario # Substitua por seu nome de usuário do PostgreSQL
+      - SPRING_DATASOURCE_PASSWORD=sua_senha # Substitua por sua senha do PostgreSQL
+      - JWT_SECRET=sua_chave_secreta # Substitua por uma chave secreta para JWT
+      - OLLAMA_API_URL=http://ollama-ai:11434/api/generate
+      - OLLAMA_MODEL_NAME=gemma4:e2b
+      - tz=America/Sao_Paulo
+    networks:
+      - dica-network
+
+volumes:
+  pgdata:
+  ollama_data:
+
+networks:
+  dica-network:
+    driver: bridge

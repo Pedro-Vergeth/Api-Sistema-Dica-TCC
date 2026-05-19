@@ -66,4 +66,14 @@ public class UsuarioController {
     ) {
         return ResponseEntity.ok(usuarioService.validarSenha(usuario, dto));
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/senha")
+    public ResponseEntity alterarSenha(
+            @AuthenticationPrincipal Usuario usuario,
+            @RequestBody @Valid AlterarSenhaRequestDto dto
+    ) {
+        usuarioService.alterarSenha(usuario, dto);
+        return ResponseEntity.ok("Senha alterada com sucesso.");
+    }
 }

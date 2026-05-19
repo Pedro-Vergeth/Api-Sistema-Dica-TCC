@@ -76,4 +76,21 @@ public class UsuarioService {
                 senhaValida ? "Senha válida" : "Senha inválida"
         );
     }
+
+    public void alterarSenha(Usuario usuario, AlterarSenhaRequestDto dto) {
+        if (usuario == null || usuario.getId() == null) {
+            throw new BadCredentialsException("Usuário autenticado não encontrado");
+        }
+
+        var usuarioPersistido = usuarioRepository.findById(usuario.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+        var senhaAtualValida = passwordEncoder.matches(dto.senhaAtual(), usuarioPersistido.getPassword());
+        if (!senhaAtualValida) {
+            throw new BadCredentialsException("Senha atual inválida");
+        }
+
+        usuarioPersistido.setPassword(passwordEncoder.encode(dto.novaSenha()));
+        usuarioRepository.save(usuarioPersistido);
+    }
 }
