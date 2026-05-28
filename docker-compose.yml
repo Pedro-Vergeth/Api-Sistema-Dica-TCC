@@ -46,12 +46,10 @@ services:
       - postgres-db
       - ollama-ai
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/DicaBD
+      - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_USERNAME=acesso1
       - SPRING_DATASOURCE_PASSWORD=acesso1tcc4323
       - JWT_SECRET=253245245
-      - OLLAMA_API_URL=http://ollama-ai:11434/api/generate
-      - OLLAMA_API_MODEL=gemma4:e2b
       - tz=America/Sao_Paulo
     networks:
       - dica-network

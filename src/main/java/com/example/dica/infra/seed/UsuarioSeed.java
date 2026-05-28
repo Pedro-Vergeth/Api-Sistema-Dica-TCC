@@ -3,14 +3,14 @@ package com.example.dica.infra.seed;
 import com.example.dica.domain.usuario.Role;
 import com.example.dica.domain.usuario.Usuario;
 import com.example.dica.domain.usuario.UsuarioRepository;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.jspecify.annotations.NonNull;
 
 @Component
-public class UsuarioSeed implements CommandLineRunner {
+public class UsuarioSeed {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
@@ -20,9 +20,9 @@ public class UsuarioSeed implements CommandLineRunner {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
     @Transactional
-    public void run(@NonNull String... args) {
+    @EventListener(ApplicationReadyEvent.class)
+    public void seedUsuarioAdmin() {
         String nome = "Administrador";
         String email = "admin@dica.com";
         String senhaPadrao = "admin123";
